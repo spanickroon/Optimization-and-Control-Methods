@@ -1,51 +1,4 @@
 import numpy as np
-import time
-m_a = [
-    '0 1 4 1 0 -3 5 0',
-    '1 -1 0 1 0 0 1 0',
-    '0 7 -1 0 -1 3 8 0',
-    '1 1 1 1 0 3 -3 1'
-]
-
-v_b = '6 10 -2 15'
-v_c = '-5 -2 3 -4 -6 0 -1 -5'
-v_x = '4 0 0 6 2 0 0 5'
-v_jb = '1 4 5 8'
-
-
-m_a = [
-    '0 1 4 1 0 -8 1 5',
-    '0 -1 0 -1 0 0 0 0',
-    '0 2 -1 0 -1 3 -1 0',
-    '1 1 1 1 0 3 1 1'
-]
-
-v_b = '36 -11 10 20'
-v_c = '-5 2 3 -4 -6 0 1 -5'
-v_x = '4 5 0 6 0 0 0 5'
-v_jb = '1 2 4 8'
-
-
-m_a = [
-    '1 2 1 0 0 0',
-    '2 1 0 1 0 0',
-    '1 0 0 0 1 0',
-    '0 1 0 0 0 1'
-]
-
-v_b = '10 11 5 4'
-v_c = '20 26 0 0 0 1'
-v_x = '2 4 0 3 3 0'
-v_jb = '5 2 1 4'
-
-m_a = [
-    '1 1',
-]
-
-v_b = '1'
-v_c = '1 1'
-v_x = '1 1'
-v_jb = '1'
 
 
 def ban_linalg_inv(source_matrix):
@@ -75,18 +28,17 @@ def ban_linalg_inv(source_matrix):
 
 def input_matrix(m):
     matrix = []
-    # range(m)
-    for el in m_a:
-        matrix.append(list(map(int, el.split())))
+    for el in range(m):
+        matrix.append(list(map(int, input().split())))
     return np.array(matrix)
 
 
-def input_vector(v):
-    return list(map(int, v.split()))
+def input_vector():
+    return list(map(int, input().split()))
 
 
-def input_float_vector(v):
-    return list(map(float, v.split()))
+def input_float_vector():
+    return list(map(float, input().split()))
 
 
 def create_matrix_ab(matrix_a, vector_jb):
@@ -155,15 +107,18 @@ def main_stage_simplex_method():
     all_j = {i for i in range(1, n+1)}
 
     matrix_a = input_matrix(m)
-    vector_b = input_vector(v_b)
-    vector_c = input_vector(v_c)
-    vector_x = input_float_vector(v_x)
-    vector_jb = input_vector(v_jb)
+    vector_b = input_vector()
+    vector_c = input_vector()
+    vector_x = input_float_vector()
+    vector_jb = input_vector()
 
     while True:
         matrix_ab = create_matrix_ab(matrix_a.copy(), vector_jb.copy())
-
-        matrix_b = ban_linalg_inv(matrix_ab.copy())
+        try:
+            matrix_b = np.linalg.inv(matrix_ab.copy())
+        except np.linalg.LinAlgError:
+            print('Unbounded')
+            exit()
 
         vector_cb = create_vector_cb(vector_c.copy(), vector_jb.copy())
 
@@ -196,6 +151,4 @@ def main_stage_simplex_method():
 
 
 if __name__ == '__main__':
-    t = time.time()
     print(main_stage_simplex_method())
-    print(time.time() - t)
