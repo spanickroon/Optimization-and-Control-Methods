@@ -103,7 +103,7 @@ def quadratic_programming():
         vector_b, vector_c, vector_x, vector_j, vector_j_opt)
 
     if vector_x_new is None:
-        return "Unbound"
+        return "Unbounded"
     else:
         return f"Bounded\n{' '.join(map(str, vector_x_new))}"
 
